@@ -1,18 +1,16 @@
 package weatherplanner.weathersource;
 
 public class WeatherFilter {
-	private final String city;
-	private final String country;
+	private final String loc;
 	private final int tempMax;
 	private final int tempMin;
 	private PrecipType precipType;
 	private final int humidity;
 	private final int maxResults;
 	
-	public WeatherFilter(String city, String country, int tempMax, int tempMin, PrecipType precipType, int humidity,
+	public WeatherFilter(String loc, int tempMax, int tempMin, PrecipType precipType, int humidity,
 			int maxResults) {
-		this.city = city;
-		this.country = country;
+		this.loc = loc;
 		this.tempMax = tempMax;
 		this.tempMin = tempMin;
 		this.precipType = precipType;
@@ -28,12 +26,8 @@ public class WeatherFilter {
 		this.precipType = precipType;
 	}
 	
-	public String getCity() {
-		return city;
-	}
-	
-	public String getCountry() {
-		return country;
+	public String getLocation() {
+		return loc;
 	}
 	
 	public int getTempMax() {
