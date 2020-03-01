@@ -10,22 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import weatherplanner.weathersource.IForecastSource;
-import weatherplanner.weathersource.TempUnit;
-import weatherplanner.weathersource.WeatherLocation;
-import weatherplanner.weathersource.mock.ForecastMock;
+import weatherplanner.weathersource.*;
+import weatherplanner.weathersource.mock.*;
 
 
 @WebServlet("/simpleweather")
 public class SimpleWeatherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private final IForecastSource forecastSource;
+    private final WeatherSource weatherSource;
     private final Gson gson; 
 
     
     public SimpleWeatherServlet() {
         super();
-        forecastSource = new ForecastMock();
+        weatherSource = new WeatherSource(new ForecastMock(), new AdvancedWeatherMock(), new FavoritesMock(),  new PlaceImageMock());
         gson = new Gson();
     }
     
@@ -35,15 +33,9 @@ public class SimpleWeatherServlet extends HttpServlet {
 		String loc = request.getParameter("loc");
 		String unit = request.getParameter("unit");
 		
-		WeatherLocation weather = forecastSource.getCurrentWeather(loc, TempUnit.valueOf(unit));
+		WeatherLocation weather = weatherSource.getWeather(request.getSession(), loc, TempUnit.valueOf(unit));
 		
 		out.print(gson.toJson(weather));
 		out.flush();
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }
